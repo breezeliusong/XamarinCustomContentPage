@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.UWP;
@@ -30,16 +31,20 @@ namespace XamarinCustomContentPage.UWP
         {
             base.OnElementChanged(e);
             if (e.OldElement != null || Element == null) return;
-            Windows.UI.Xaml.Controls.Image image = new Windows.UI.Xaml.Controls.Image();
+            Windows.UI.Xaml.Controls.Image image = new Windows.UI.Xaml.Controls.Image()
+            {
+                Width = 100,
+                Height = 100,
+                HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Left
+            };
             BitmapImage bitmapImage = new BitmapImage(new Uri("ms-appx://XamarinCustomContentPage.UWP/Assets/picture.png"));
             image.Source = bitmapImage;
-            image.Width = 100;
-            image.Height = 100;
+            
             sta = new Windows.UI.Xaml.Controls.StackPanel();
             Windows.UI.Xaml.Controls.Button bt = new Windows.UI.Xaml.Controls.Button();
             bt.Content = "hello , my custom page";
             bt.Background = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(25,0,0,255));
-
+            bt.Click +=OnClicked;
             sta.Children.Add(image);
             sta.Children.Add(bt);
 
@@ -55,6 +60,18 @@ namespace XamarinCustomContentPage.UWP
             //it can not be added to page.content or this render.content
             this.Children.Add(page);
         }
+
+        private void OnClicked(object sender, RoutedEventArgs e)
+        {
+        }
+
+
+        /*
+         * When implementing a custom renderer that derives from PageRenderer on UWP, 
+         * the ArrangeOverride method should also be implemented to arrange the page controls,
+         *  because the base renderer doesn't know what to do with them.
+         *   Otherwise, a blank page results
+         */
         protected override Windows.Foundation.Size ArrangeOverride(Windows.Foundation.Size finalSize)
         {
             page.Arrange(new Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height));

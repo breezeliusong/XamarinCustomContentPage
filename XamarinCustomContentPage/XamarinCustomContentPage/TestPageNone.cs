@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
-using System.Threading.Tasks;
+
 using Xamarin.Forms;
 
 namespace XamarinCustomContentPage
 {
-    public class CustomPage:ContentPage
+    public class TestPageNone : CustomPage
     {
-        public CustomPage()
+        public TestPageNone()
         {
             Content = new StackLayout
             {
                 Children = {
-                    new Label { Text = "Hello Page",BackgroundColor=Color.Red }
+                    new Label { Text = "Hello Page" }
                 }
             };
         }
