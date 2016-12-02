@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ namespace XamarinCustomContentPage.UWP
     {
         Windows.UI.Xaml.Controls.Page page;
         Windows.UI.Xaml.Controls.StackPanel sta;
+        Windows.UI.Xaml.Controls.Button bt;
         /*
          * This method takes an ElementChangedEventArgs parameter that contains OldElement and NewElement properties.
          * These properties represent the Xamarin.Forms element that the renderer was attached to, 
@@ -30,6 +32,8 @@ namespace XamarinCustomContentPage.UWP
         protected override void OnElementChanged(ElementChangedEventArgs<Page> e)
         {
             base.OnElementChanged(e);
+            Debug.Write(e.OldElement == null);
+            Debug.Write(e.NewElement == null);
             if (e.OldElement != null || Element == null) return;
             Windows.UI.Xaml.Controls.Image image = new Windows.UI.Xaml.Controls.Image()
             {
@@ -41,7 +45,8 @@ namespace XamarinCustomContentPage.UWP
             image.Source = bitmapImage;
             
             sta = new Windows.UI.Xaml.Controls.StackPanel();
-            Windows.UI.Xaml.Controls.Button bt = new Windows.UI.Xaml.Controls.Button();
+
+            bt = new Windows.UI.Xaml.Controls.Button();
             bt.Content = "hello , my custom page";
             bt.Background = new Windows.UI.Xaml.Media.SolidColorBrush(Windows.UI.Color.FromArgb(25,0,0,255));
             bt.Click +=OnClicked;
@@ -63,14 +68,15 @@ namespace XamarinCustomContentPage.UWP
 
         private void OnClicked(object sender, RoutedEventArgs e)
         {
+            ((CustomPage)Element).NotifyButtonClicked();
         }
 
 
         /*
          * When implementing a custom renderer that derives from PageRenderer on UWP, 
          * the ArrangeOverride method should also be implemented to arrange the page controls,
-         *  because the base renderer doesn't know what to do with them.
-         *   Otherwise, a blank page results
+         * because the base renderer doesn't know what to do with them.
+         * Otherwise, a blank page results
          */
         protected override Windows.Foundation.Size ArrangeOverride(Windows.Foundation.Size finalSize)
         {

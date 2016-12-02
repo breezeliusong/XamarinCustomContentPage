@@ -11,12 +11,16 @@ namespace XamarinCustomContentPage
     {
         public CustomPage()
         {
-            Content = new StackLayout
+            this.ButtonClicked = (ob, arg) => { Navigation.PushAsync(new CustomPage()); };
+        }
+        public event EventHandler ButtonClicked;
+
+        public void NotifyButtonClicked()
+        {
+            if (ButtonClicked != null)
             {
-                Children = {
-                    new Label { Text = "Hello Page",BackgroundColor=Color.Red }
-                }
-            };
+                ButtonClicked(this, new EventArgs());
+            }
         }
     }
 }
